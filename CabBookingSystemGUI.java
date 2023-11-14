@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CabBookingSystemGUI extends JFrame {
-    private LoginPage loginPage;
     private JButton homeButton, bookingButton, contactUsButton, aboutButton, accountButton;
     private JPanel headerPanel, footerPanel, navigationPanel, contentPanel;
 
@@ -94,9 +93,7 @@ public class CabBookingSystemGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Add logic for account button (login/sign up)
-                loginPage.setVisible(true);
-                
-                //JOptionPane.showMessageDialog(null, "Navigate to Login/Sign Up");
+                JOptionPane.showMessageDialog(null, "Navigate to Login/Sign Up");
             }
         });
 
@@ -111,7 +108,6 @@ public class CabBookingSystemGUI extends JFrame {
         // Display the frame
         setContentPane(contentPanel);
         setVisible(true);
-        loginPage = new LoginPage(this);
     }
 
     // Custom JPanel for background image
