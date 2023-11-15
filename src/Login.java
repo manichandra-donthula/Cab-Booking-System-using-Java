@@ -1,6 +1,7 @@
 package src;
 
 import javax.swing.*;
+import java.sql.*;
 
 public class Login {
     public static void performAction(String selectedOption) {
@@ -29,16 +30,41 @@ public class Login {
 
     private static void registerUser() {
         String username = JOptionPane.showInputDialog("Enter your desired username:");
+        String mobileNumber = JOptionPane.showInputDialog("Enter your mobile number:");
+        String emailAddress = JOptionPane.showInputDialog("Enter your email address");
         String password = JOptionPane.showInputDialog("Enter your password:");
-        String confirmPassword = JOptionPane.showInputDialog("Confirm your password:");
-
+        String confirmPassword = JOptionPane.showInputDialog("Confirm your password");
+    
         // Add your logic for user registration here
         if (password.equals(confirmPassword)) {
-            JOptionPane.showMessageDialog(null, "User registered successfully with username: " + username);
+            try {
+                Conn conn = new Conn();
+                Statement stmt = conn.getConnection().createStatement();
+    
+                // Check if the table already exists
+                DatabaseMetaData meta = conn.getConnection().getMetaData();
+                ResultSet tables = meta.getTables(null, null, "SIGNUP", null);
+                if (!tables.next()) {
+                    // Create the table if it doesn't exist
+                    stmt.executeUpdate("CREATE TABLE signup(Username VARCHAR(20), Password VARCHAR(20), MobileNumber varchar(12), EmailAddress VARCHAR(20))");
+                }
+    
+                // Insert user data into the table
+                String insertQuery = String.format("INSERT INTO signup VALUES('%s', '%s', '%s', '%s')", username, password, mobileNumber, emailAddress);
+                stmt.executeUpdate(insertQuery);
+    
+                // Close the statement and connection
+                conn.closeConnection(conn.getConnection(), stmt);
+    
+                JOptionPane.showMessageDialog(null, "User registered successfully with username: " + username);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Password confirmation failed. Please try again.");
         }
     }
+    
 
     private static void adminLogin() {
         String adminUsername = JOptionPane.showInputDialog("Enter admin username:");
