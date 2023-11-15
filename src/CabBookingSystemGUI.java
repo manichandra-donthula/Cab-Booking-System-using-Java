@@ -1,11 +1,12 @@
+package src;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CabBookingSystemGUI extends JFrame {
-    private JButton homeButton, bookingButton, contactUsButton, aboutButton, accountButton;
+    private JButton homeButton, bookingButton, contactUsButton, aboutButton;
+    private JComboBox<String> accountComboBox;
     private JPanel headerPanel, footerPanel, navigationPanel, contentPanel;
 
     public CabBookingSystemGUI() {
@@ -16,19 +17,20 @@ public class CabBookingSystemGUI extends JFrame {
 
         // Initialize components
         headerPanel = new JPanel();
-        headerPanel.setBackground(Color.LIGHT_GRAY); // Change header color to yellow
+        headerPanel.setBackground(Color.LIGHT_GRAY);
         headerPanel.setPreferredSize(new Dimension(getWidth(), 50));
-        headerPanel.setForeground(Color.BLACK); // Set text color to black
+        headerPanel.setForeground(Color.BLACK);
         footerPanel = new JPanel();
         footerPanel.setBackground(Color.LIGHT_GRAY);
         footerPanel.setPreferredSize(new Dimension(getWidth(), 50));
         navigationPanel = new JPanel();
-        contentPanel = new ImagePanel(); // Using custom JPanel for background image
+        contentPanel = new ImagePanel();
         homeButton = new JButton("Home");
         bookingButton = new JButton("Booking");
         contactUsButton = new JButton("Contact Us");
         aboutButton = new JButton("About");
-        accountButton = new JButton("Login/Sign Up");
+        String[] accountOptions = {"Login", "Sign Up", "Admin Login"};
+        accountComboBox = new JComboBox<>(accountOptions);
 
         // Set layout for content panel
         contentPanel.setLayout(new BorderLayout());
@@ -40,13 +42,13 @@ public class CabBookingSystemGUI extends JFrame {
         navigationPanel.add(bookingButton);
         navigationPanel.add(contactUsButton);
         navigationPanel.add(aboutButton);
-        navigationPanel.add(accountButton);
+        navigationPanel.add(accountComboBox);
 
         homeButton.setForeground(Color.red);
         bookingButton.setForeground(Color.red);
         contactUsButton.setForeground(Color.red);
         aboutButton.setForeground(Color.red);
-        accountButton.setForeground(Color.red);
+        accountComboBox.setForeground(Color.red);
 
         // Set layout for header panel
         headerPanel.setOpaque(true);
@@ -60,40 +62,29 @@ public class CabBookingSystemGUI extends JFrame {
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Add logic for home button
-                JOptionPane.showMessageDialog(null, "Navigate to Home");
-            }
-        });
-
-        bookingButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Add logic for booking button
-                JOptionPane.showMessageDialog(null, "Navigate to Booking");
+                Home.performAction(); // Call Home class to perform the corresponding action
             }
         });
 
         contactUsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Add logic for contact us button
-                JOptionPane.showMessageDialog(null, "Navigate to Contact Us");
+                ContactUs.performAction(); // Call ContactUs class to perform the corresponding action
             }
         });
 
         aboutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Add logic for about button
-                JOptionPane.showMessageDialog(null, "Navigate to About");
+                About.performAction(); // Call About class to perform the corresponding action
             }
         });
 
-        accountButton.addActionListener(new ActionListener() {
+        accountComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Add logic for account button (login/sign up)
-                JOptionPane.showMessageDialog(null, "Navigate to Login/Sign Up");
+                String selectedOption = (String) accountComboBox.getSelectedItem();
+                Login.performAction(selectedOption); // Call Login class to perform the corresponding action
             }
         });
 
@@ -110,32 +101,27 @@ public class CabBookingSystemGUI extends JFrame {
         setVisible(true);
     }
 
-    // Custom JPanel for background image
     private class ImagePanel extends JPanel {
         private Image backgroundImage;
 
         public ImagePanel() {
-            // Load background image
-            backgroundImage = new ImageIcon("Home.jpg").getImage();
+            backgroundImage = new ImageIcon("img/Home.jpg").getImage();
         }
 
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            // Draw background image
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         }
     }
 
     public static void main(String[] args) {
-        // Set look and feel to the system default
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
 
-        // Run the GUI on the event dispatch thread
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
