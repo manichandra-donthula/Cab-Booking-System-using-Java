@@ -62,21 +62,28 @@ public class CabBookingSystemGUI extends JFrame {
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Home.performAction(); // Call Home class to perform the corresponding action
+                Home.performAction();
+            }
+        });
+
+        bookingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Booking.performAction();
             }
         });
 
         contactUsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ContactUs.performAction(); // Call ContactUs class to perform the corresponding action
+                ContactUs.performAction();
             }
         });
 
         aboutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                About.performAction(); // Call About class to perform the corresponding action
+                About.performAction();
             }
         });
 
@@ -84,7 +91,7 @@ public class CabBookingSystemGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedOption = (String) accountComboBox.getSelectedItem();
-                Login.performAction(selectedOption); // Call Login class to perform the corresponding action
+                Login.performAction(selectedOption);
             }
         });
 
