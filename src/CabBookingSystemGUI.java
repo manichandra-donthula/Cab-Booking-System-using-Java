@@ -1,4 +1,5 @@
 package src;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -44,11 +45,11 @@ public class CabBookingSystemGUI extends JFrame {
         navigationPanel.add(aboutButton);
         navigationPanel.add(accountComboBox);
 
-        homeButton.setForeground(Color.red);
-        bookingButton.setForeground(Color.red);
-        contactUsButton.setForeground(Color.red);
-        aboutButton.setForeground(Color.red);
-        accountComboBox.setForeground(Color.red);
+        homeButton.setForeground(Color.black);
+        bookingButton.setForeground(Color.black);
+        contactUsButton.setForeground(Color.black);
+        aboutButton.setForeground(Color.black);
+        accountComboBox.setForeground(Color.black);
 
         // Set layout for header panel
         headerPanel.setOpaque(true);
