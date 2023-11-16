@@ -4,31 +4,71 @@ import javax.swing.*;
 import java.sql.*;
 
 public class Login {
-    public static void performAction(String selectedOption) {
+    static boolean loggedIn=false;
+    public static boolean re(){
+        boolean log=loggedIn;
+        return log;
+    } 
+    public static boolean performAction(String selectedOption) {
         switch (selectedOption) {
             case "Login":
-                loginUser();
+                loggedIn=loginUser(loggedIn);
                 break;
             case "Sign Up":
                 registerUser();
                 break;
-            case "Admin Login":
-                adminLogin();
+            case "Logout":
+                Logout();
                 break;
             default:
                 break;
+        
+        }
+        return loggedIn;
+    }
+
+    private static boolean loginUser(boolean loggedIn) {
+        if(loggedIn==false){
+        String username = JOptionPane.showInputDialog("Enter your username:");
+        String password = JOptionPane.showInputDialog("Enter your password:");
+        String query = "SELECT * FROM signup WHERE username = '" + username + "' AND password = '" + password + "'";
+        try {
+            // Loading and registering Oracle database thin driver
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            // Creating a connection between the Java program and Oracle database.
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "manager");
+            // Creating a Statement object to execute SQL statements
+            Statement stmt = con.createStatement();
+
+            // Execute the SELECT query
+            ResultSet rs = stmt.executeQuery(query);
+
+            if (rs.next()) {
+                // User found in the database
+                JOptionPane.showMessageDialog(null, "Login Successful with username: " + username);
+                loggedIn=true;
+            } else {
+                // User not found in the database
+                JOptionPane.showMessageDialog(null, "Invalid Username or Password");
+            }
+
+            con.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Error during login: " + e.getMessage());
         }
     }
 
-    private static void loginUser() {
-        String username = JOptionPane.showInputDialog("Enter your username:");
-        String password = JOptionPane.showInputDialog("Enter your password:");
+        // Clear the password field for security
+
 
         // Add your logic for user login here
-        JOptionPane.showMessageDialog(null, "Logging in as user with username: " + username);
+         
+        
+        return loggedIn;
     }
 
     private static void registerUser() {
+        if(loggedIn==false){ 
         String username = JOptionPane.showInputDialog("Enter your desired username:");
         String mobileNumber = JOptionPane.showInputDialog("Enter your mobile number:");
         String emailAddress = JOptionPane.showInputDialog("Enter your email address");
@@ -64,18 +104,11 @@ public class Login {
             JOptionPane.showMessageDialog(null, "Password confirmation failed. Please try again.");
         }
     }
+    }
     
 
-    private static void adminLogin() {
-        String adminUsername = JOptionPane.showInputDialog("Enter admin username:");
-        String adminPassword = JOptionPane.showInputDialog("Enter admin password:");
-
-        // Add your logic for admin login here
-        if (isAdminValid(adminUsername, adminPassword)) {
-            JOptionPane.showMessageDialog(null, "Logging in as admin with username: " + adminUsername);
-        } else {
-            JOptionPane.showMessageDialog(null, "Invalid admin credentials. Please try again.");
-        }
+    private static void Logout() {
+        loggedIn=false;
     }
 
     private static boolean isAdminValid(String adminUsername, String adminPassword) {

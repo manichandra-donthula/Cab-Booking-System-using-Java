@@ -30,7 +30,7 @@ public class CabBookingSystemGUI extends JFrame {
         bookingButton = new JButton("Booking");
         contactUsButton = new JButton("Contact Us");
         aboutButton = new JButton("About");
-        String[] accountOptions = {"Login", "Sign Up", "Admin Login"};
+        String[] accountOptions = {"Login", "Sign Up","Logout"};
         accountComboBox = new JComboBox<>(accountOptions);
 
         // Set layout for content panel
@@ -68,9 +68,17 @@ public class CabBookingSystemGUI extends JFrame {
         });
 
         bookingButton.addActionListener(new ActionListener() {
+           boolean loggedIn=Login.re();
             @Override
             public void actionPerformed(ActionEvent e) {
-                Booking.performAction();
+                loggedIn=Login.re();
+                if(loggedIn == false){
+                JOptionPane.showMessageDialog(null, "You need to login to use this service.");
+                //loggedIn=Login.performAction(selectedOption);
+                }
+                else{
+                    Booking.performAction();
+                }
             }
         });
 
@@ -89,10 +97,25 @@ public class CabBookingSystemGUI extends JFrame {
         });
 
         accountComboBox.addActionListener(new ActionListener() {
+            boolean loggedIn=Login.re();
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedOption = (String) accountComboBox.getSelectedItem();
-                Login.performAction(selectedOption);
+                if(selectedOption=="Logout"){
+                    if(loggedIn=true){
+                    loggedIn=false;
+                     JOptionPane.showMessageDialog(null, "user  logged out");
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Didn't logged in log out");
+                    }
+                }
+                if(loggedIn == false){
+                 loggedIn=Login.performAction(selectedOption);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "user alraedy logged in");
+                }
             }
         });
 
