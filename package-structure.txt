@@ -11,6 +11,6 @@ Online-Cab-Booking-System
 |   |
 |   |-- Login.java
 |   |
-|   |-- CabBookingSystemGUI.java
-|   |
 |   |-- package-info.java
+|   |
+|-- CabBookingSystemGUI.java
